@@ -44,6 +44,8 @@ struct OnboardingView: View {
                     .multilineTextAlignment(.center)
                     .padding(.top, 8)
                     .padding(.horizontal, 40)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Spacer()
 
@@ -130,7 +132,7 @@ struct OnboardingView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(formValid ? Color.white : Color.white.opacity(0.3))
-                        .foregroundColor(formValid ? Color("AccentGold") : .white.opacity(0.5))
+                        .foregroundColor(formValid ? Color(red: 0.8, green: 0.6, blue: 0.1) : .white.opacity(0.5))
                         .cornerRadius(12)
                         .font(.headline)
                     }
