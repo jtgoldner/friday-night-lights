@@ -17,3 +17,6 @@ workflows:
         script: cd FridayNightLights && agvtool new-version -all 3
       - name: Build iOS app
         script: |
+          xcode-project use-profiles
+          xcodebuild -project "$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
