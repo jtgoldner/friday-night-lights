@@ -93,7 +93,7 @@ struct CandleTimeCard: View {
                 .background(Color.white.opacity(0.2))
                 .padding(.horizontal, 60)
 
-            Text("You'll be notified \(minutesBefore) minutes before, every Friday.")
+            Text("You'll be notified \(minutesBefore) minutes before, every Friday. Shabbat Shalom!")
                 .font(.subheadline)
                 .foregroundColor(.white.opacity(0.6))
                 .multilineTextAlignment(.center)
