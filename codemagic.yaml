@@ -13,23 +13,9 @@ workflows:
         XCODE_PROJECT: "FridayNightLights.xcodeproj"
         XCODE_SCHEME: "FridayNightLights"
     scripts:
+      - name: Set build number
+        script: |
+          cd FridayNightLights
+          agvtool new-version -all 3
       - name: Build iOS app
         script: |
-          xcode-project use-profiles
-          xcodebuild -project "$XCODE_PROJECT" \
-            -scheme "$XCODE_SCHEME" \
-            -configuration Release \
-            -archivePath build/FridayNightLights.xcarchive \
-            archive
-      - name: Export IPA
-        script: |
-          xcode-project build-ipa \
-            --project "$XCODE_PROJECT" \
-            --scheme "$XCODE_SCHEME"
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
