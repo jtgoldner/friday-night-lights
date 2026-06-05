@@ -7,11 +7,12 @@ struct FridayNightLightsApp: App {
             if appState.zipCode.isEmpty {
                 OnboardingView()
                     .environmentObject(appState)
+                    .preferredColorScheme(.dark)
             } else {
                 HomeView()
                     .environmentObject(appState)
+                    .preferredColorScheme(.dark)
             }
         }
-        .preferredColorScheme(.dark)
     }
 }
