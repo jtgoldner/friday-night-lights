@@ -1,9 +1,7 @@
 import SwiftUI
-
 @main
 struct FridayNightLightsApp: App {
     @StateObject private var appState = AppState()
-
     var body: some Scene {
         WindowGroup {
             if appState.zipCode.isEmpty {
@@ -14,5 +12,6 @@ struct FridayNightLightsApp: App {
                     .environmentObject(appState)
             }
         }
+        .preferredColorScheme(.dark)
     }
 }
