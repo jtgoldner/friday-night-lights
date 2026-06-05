@@ -19,15 +19,15 @@
 
 /* Begin PBXFileReference section */
 		A001000000000001 /* FridayNightLights.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FridayNightLights.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A001000100000001 /* FridayNightLightsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FridayNightLightsApp.swift; path = FridayNightLights/FridayNightLightsApp.swift; sourceTree = "<group>"; };
-		A001000200000001 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppState.swift; path = FridayNightLights/AppState.swift; sourceTree = "<group>"; };
-		A001000300000001 /* HebcalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HebcalService.swift; path = FridayNightLights/HebcalService.swift; sourceTree = "<group>"; };
-		A001000400000001 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationScheduler.swift; path = FridayNightLights/NotificationScheduler.swift; sourceTree = "<group>"; };
-		A001000500000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = FridayNightLights/OnboardingView.swift; sourceTree = "<group>"; };
-		A001000600000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = FridayNightLights/HomeView.swift; sourceTree = "<group>"; };
-		A001000700000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = FridayNightLights/SettingsView.swift; sourceTree = "<group>"; };
-		A001000800000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = FridayNightLights/Assets.xcassets; sourceTree = "<group>"; };
-		A001000900000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = FridayNightLights/Info.plist; sourceTree = "<group>"; };
+		A001000100000001 /* FridayNightLightsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FridayNightLightsApp.swift; path = FridayNightLightsApp.swift; sourceTree = "<group>"; };
+		A001000200000001 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppState.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A001000300000001 /* HebcalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HebcalService.swift; path = HebcalService.swift; sourceTree = "<group>"; };
+		A001000400000001 /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationScheduler.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
+		A001000500000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingView.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		A001000600000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeView.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A001000700000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A001000800000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Assets.xcassets; sourceTree = "<group>"; };
+		A001000900000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,7 +281,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = FridayNightLights/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -306,7 +306,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = FridayNightLights/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
