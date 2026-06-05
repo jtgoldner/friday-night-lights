@@ -1,0 +1,36 @@
+workflows:
+  ios-app-store:
+    name: Friday Night Lights — App Store
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.jonathangoldner.fridaynightlights
+      vars:
+        XCODE_PROJECT: "FridayNightLights.xcodeproj"
+        XCODE_SCHEME: "FridayNightLights"
+        APP_STORE_APPLE_ID: 1234567890  # Replace with your actual App Store app ID
+    scripts:
+      - name: Build iOS app
+        script: |
+          xcode-project use-profiles
+          xcodebuild -project "$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Release \
+            -archivePath build/FridayNightLights.xcarchive \
+            archive
+      - name: Export IPA
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
