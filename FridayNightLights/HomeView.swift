@@ -13,53 +13,56 @@ struct HomeView: View {
             )
             .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                HStack {
-                    Text("🕯️ Friday Night Lights")
-                        .font(.custom("Georgia", size: 20))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                    Spacer()
-                    Button(action: { showSettings = true }) {
-                        Text(appState.zipCode)
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color.white.opacity(0.15))
-                            .cornerRadius(8)
+            if appState.isShabbat {
+                ShabbatView()
+                    .environmentObject(appState)
+            } else {
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("🕯️ Friday Night Lights")
+                            .font(.custom("Georgia", size: 20))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Spacer()
+                        Button(action: { showSettings = true }) {
+                            Text(appState.zipCode)
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.8))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(Color.white.opacity(0.15))
+                                .cornerRadius(8)
+                        }
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 20)
+
+                    Spacer()
+
+                    if appState.isLoading {
+                        ProgressView().tint(.white).scaleEffect(1.5)
+                    } else if let error = appState.errorMessage {
+                        ErrorCard(message: error) { appState.refreshAndSchedule() }
+                    } else if let next = appState.nextCandleLighting {
+                        CandleTimeCard(time: next, minutesBefore: appState.minutesBefore)
+                    } else {
+                        Text("Loading candle times…")
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+
+                    Spacer()
+
+                    Text("Times based on your ZIP code")
+                        .font(.caption2)
+                        .foregroundColor(.white.opacity(0.4))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .padding(.bottom, 32)
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 20)
-
-                Spacer()
-
-                if appState.isLoading {
-                    ProgressView().tint(.white).scaleEffect(1.5)
-                } else if let error = appState.errorMessage {
-                    ErrorCard(message: error) { appState.refreshAndSchedule() }
-                } else if let next = appState.nextCandleLighting {
-                    CandleTimeCard(time: next, minutesBefore: appState.minutesBefore)
-                } else {
-                    Text("Loading candle times…")
-                        .foregroundColor(.white.opacity(0.7))
-                }
-
-                Spacer()
-
-                Text("Reminders scheduled 8 weeks out • Times based on your ZIP code")
-                    .font(.caption2)
-                    .foregroundColor(.white.opacity(0.4))
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-                    .padding(.bottom, 32)
             }
         }
         .onAppear {
-            if appState.nextCandleLighting == nil {
-                appState.refreshAndSchedule()
-            }
+            appState.refreshAndSchedule()
         }
         .sheet(isPresented: $showSettings) {
             SettingsView().environmentObject(appState)
@@ -86,7 +89,7 @@ struct CandleTimeCard: View {
 
             Text("Candle Lighting")
                 .font(.title3)
-                .foregroundColor(Color("AccentGold"))
+                .foregroundColor(Color(red: 0.8, green: 0.6, blue: 0.1))
                 .fontWeight(.medium)
 
             Divider()
@@ -122,7 +125,7 @@ struct ErrorCard: View {
                 .multilineTextAlignment(.center)
                 .font(.subheadline)
             Button("Try Again", action: retry)
-                .foregroundColor(Color("AccentGold"))
+                .foregroundColor(Color(red: 0.8, green: 0.6, blue: 0.1))
                 .fontWeight(.semibold)
         }
         .padding(32)
