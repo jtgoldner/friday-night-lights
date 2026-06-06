@@ -24,10 +24,9 @@ private struct HebcalItem: Codable {
 }
 
 struct HebcalService {
-    static func fetchUpcomingCandleTimes(zip: String, weeks: Int = 8) async throws -> [CandleLightingTime] {
-        var results: [CandleLightingTime] = []
 
-        guard let url = URL(string: "https://www.hebcal.com/shabbat?cfg=json&zip=\(zip)&m=18&weeks=\(weeks)") else {
+    static func fetchCandleAndHavdalah(zip: String) async throws -> (candle: CandleLightingTime, havdalah: Date?) {
+        guard let url = URL(string: "https://www.hebcal.com/shabbat?cfg=json&zip=\(zip)&m=50&ue=on&b=18&M=on&s=on") else {
             throw HebcalError.invalidURL
         }
 
@@ -39,22 +38,31 @@ struct HebcalService {
 
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm a"
+        timeFormatter.locale = Locale(identifier: "en_US_POSIX")
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d"
 
-        for item in response.items where item.category == "candles" {
-            guard let date = isoFormatter.date(from: item.date) else { continue }
-            guard date > Date() else { continue }
+        var candleItem: CandleLightingTime? = nil
+        var havdalahDate: Date? = nil
 
-            results.append(CandleLightingTime(
-                date: date,
-                formattedTime: timeFormatter.string(from: date),
-                formattedDate: dateFormatter.string(from: date)
-            ))
+        for item in response.items {
+            guard let date = isoFormatter.date(from: item.date) else { continue }
+
+            if item.category == "candles" && candleItem == nil {
+                candleItem = CandleLightingTime(
+                    date: date,
+                    formattedTime: timeFormatter.string(from: date),
+                    formattedDate: dateFormatter.string(from: date)
+                )
+            }
+
+            if item.category == "havdalah" && havdalahDate == nil {
+                havdalahDate = date
+            }
         }
 
-        if results.isEmpty { throw HebcalError.noData }
-        return results.sorted { $0.date < $1.date }
+        guard let candle = candleItem else { throw HebcalError.noData }
+        return (candle: candle, havdalah: havdalahDate)
     }
 }
