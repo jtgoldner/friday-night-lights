@@ -2,11 +2,10 @@ import Foundation
 import UserNotifications
 
 struct NotificationScheduler {
-
     static func requestPermission() async -> Bool {
         do {
             return try await UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound, .badge])
+                .requestAuthorization(options: [.alert, .sound, .badge, .timeSensitive])
         } catch {
             return false
         }
@@ -14,7 +13,6 @@ struct NotificationScheduler {
 
     static func scheduleNotifications(for times: [CandleLightingTime], minutesBefore: Int) async {
         let center = UNUserNotificationCenter.current()
-
         let pending = await center.pendingNotificationRequests()
         let ids = pending.filter { $0.identifier.hasPrefix("shabbat-") }.map { $0.identifier }
         center.removePendingNotificationRequests(withIdentifiers: ids)
@@ -29,11 +27,11 @@ struct NotificationScheduler {
                 ? "Candle lighting is now — \(time.formattedTime). Shabbat Shalom!"
                 : "Candle lighting in \(minutesBefore) min — \(time.formattedTime). Shabbat Shalom!"
             content.sound = .default
+            content.interruptionLevel = .timeSensitive
 
             let components = Calendar.current.dateComponents(
                 [.year, .month, .day, .hour, .minute], from: notifyDate)
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-
             let request = UNNotificationRequest(
                 identifier: "shabbat-\(time.date.timeIntervalSince1970)",
                 content: content,
