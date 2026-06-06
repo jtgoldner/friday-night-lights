@@ -15,6 +15,7 @@
 		B001000600000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000600000001 /* HomeView.swift */; };
 		B001000700000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000700000001 /* SettingsView.swift */; };
 		B001000800000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A001000800000001 /* Assets.xcassets */; };
+		B001000900000001 /* ShabbatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000900000002 /* ShabbatView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		A001000700000001 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsView.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A001000800000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Assets.xcassets; sourceTree = "<group>"; };
 		A001000900000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Info.plist; sourceTree = "<group>"; };
+		A001000900000002 /* ShabbatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShabbatView.swift; path = ShabbatView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 				A001000500000001 /* OnboardingView.swift */,
 				A001000600000001 /* HomeView.swift */,
 				A001000700000001 /* SettingsView.swift */,
+				A001000900000002 /* ShabbatView.swift */,
 				A001000800000001 /* Assets.xcassets */,
 				A001000900000001 /* Info.plist */,
 			);
@@ -149,6 +152,7 @@
 				B001000500000001 /* OnboardingView.swift in Sources */,
 				B001000600000001 /* HomeView.swift in Sources */,
 				B001000700000001 /* SettingsView.swift in Sources */,
+				B001000900000001 /* ShabbatView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +291,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonathangoldner.fridaynightlights;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -312,7 +316,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonathangoldner.fridaynightlights;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
