@@ -89,7 +89,7 @@ struct SettingsView: View {
                         Text("Save")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(formValid ? Color("AccentGold") : Color.white.opacity(0.2))
+                            .background(formValid ? Color(red: 0.8, green: 0.6, blue: 0.1) : Color.white.opacity(0.2))
                             .foregroundColor(formValid ? .black : .white.opacity(0.4))
                             .cornerRadius(12)
                             .fontWeight(.semibold)

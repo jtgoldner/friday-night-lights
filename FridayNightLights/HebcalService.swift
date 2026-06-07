@@ -5,6 +5,7 @@ struct CandleLightingTime: Identifiable {
     let date: Date
     let formattedTime: String
     let formattedDate: String
+    let isApproximate: Bool
 }
 
 enum HebcalError: Error {
@@ -43,18 +44,14 @@ struct HebcalService {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMMM d"
 
-        var candleItem: CandleLightingTime? = nil
+        var rawCandleDate: Date? = nil
         var havdalahDate: Date? = nil
 
         for item in response.items {
             guard let date = isoFormatter.date(from: item.date) else { continue }
 
-            if item.category == "candles" && candleItem == nil {
-                candleItem = CandleLightingTime(
-                    date: date,
-                    formattedTime: timeFormatter.string(from: date),
-                    formattedDate: dateFormatter.string(from: date)
-                )
+            if item.category == "candles" && rawCandleDate == nil {
+                rawCandleDate = date
             }
 
             if item.category == "havdalah" && havdalahDate == nil {
@@ -62,7 +59,20 @@ struct HebcalService {
             }
         }
 
-        guard let candle = candleItem else { throw HebcalError.noData }
+        guard let candleDate = rawCandleDate else { throw HebcalError.noData }
+
+        // If candle time is in the past (e.g. Saturday night after havdalah),
+        // approximate next week by adding 7 days.
+        let isApproximate = candleDate <= Date()
+        let displayDate = isApproximate ? candleDate.addingTimeInterval(7 * 24 * 60 * 60) : candleDate
+
+        let candle = CandleLightingTime(
+            date: displayDate,
+            formattedTime: timeFormatter.string(from: displayDate),
+            formattedDate: dateFormatter.string(from: displayDate),
+            isApproximate: isApproximate
+        )
+
         return (candle: candle, havdalah: havdalahDate)
     }
 }

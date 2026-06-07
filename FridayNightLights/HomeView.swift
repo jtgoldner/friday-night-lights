@@ -101,6 +101,14 @@ struct CandleTimeCard: View {
                 .foregroundColor(.white.opacity(0.6))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
+
+            if time.isApproximate {
+                Text("Approximate — exact time updates Sunday.")
+                    .font(.caption2)
+                    .foregroundColor(.white.opacity(0.35))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+            }
         }
         .padding(36)
         .background(Color.white.opacity(0.08))
