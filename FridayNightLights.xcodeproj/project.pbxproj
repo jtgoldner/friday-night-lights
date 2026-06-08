@@ -16,6 +16,7 @@
 		B001000700000001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000700000001 /* SettingsView.swift */; };
 		B001000800000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A001000800000001 /* Assets.xcassets */; };
 		B001000900000001 /* ShabbatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000900000002 /* ShabbatView.swift */; };
+		B001000A00000001 /* shabbat_shalom_tone.aiff in Resources */ = {isa = PBXBuildFile; fileRef = A001000A00000001 /* shabbat_shalom_tone.aiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		A001000800000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Assets.xcassets; sourceTree = "<group>"; };
 		A001000900000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Info.plist; sourceTree = "<group>"; };
 		A001000900000002 /* ShabbatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShabbatView.swift; path = ShabbatView.swift; sourceTree = "<group>"; };
+		A001000A00000001 /* shabbat_shalom_tone.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shabbat_shalom_tone.aiff; path = shabbat_shalom_tone.aiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 				A001000900000002 /* ShabbatView.swift */,
 				A001000800000001 /* Assets.xcassets */,
 				A001000900000001 /* Info.plist */,
+				A001000A00000001 /* shabbat_shalom_tone.aiff */,
 			);
 			path = FridayNightLights;
 			sourceTree = "<group>";
@@ -135,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B001000800000001 /* Assets.xcassets in Resources */,
+				B001000A00000001 /* shabbat_shalom_tone.aiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +285,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -306,7 +310,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
