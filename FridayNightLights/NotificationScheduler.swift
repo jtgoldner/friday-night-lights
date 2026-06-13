@@ -26,7 +26,7 @@ struct NotificationScheduler {
             content.body = minutesBefore == 0
                 ? "Candle lighting is now — \(time.formattedTime). Shabbat Shalom!"
                 : "Candle lighting in \(minutesBefore) min — \(time.formattedTime). Shabbat Shalom!"
-            content.sound = UNNotificationSound(named: UNNotificationSoundName("shabbat_shalom_tone.aiff"))
+            content.sound = .default
             content.interruptionLevel = .timeSensitive
 
             let components = Calendar.current.dateComponents(
