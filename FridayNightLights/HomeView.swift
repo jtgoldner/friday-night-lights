@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var appState: AppState
     @State private var showSettings = false
+    @State private var showDebug = false
 
     var body: some View {
         ZStack {
@@ -52,12 +53,15 @@ struct HomeView: View {
 
                     Spacer()
 
-                    Text("Times based on your ZIP code")
+                    Text("Reminders scheduled a year ahead • Times based on your ZIP code")
                         .font(.caption2)
                         .foregroundColor(.white.opacity(0.4))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
                         .padding(.bottom, 32)
+                        .onLongPressGesture(minimumDuration: 1.5) {
+                            showDebug = true
+                        }
                 }
             }
         }
@@ -66,6 +70,9 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showSettings) {
             SettingsView().environmentObject(appState)
+        }
+        .sheet(isPresented: $showDebug) {
+            DebugView()
         }
     }
 }

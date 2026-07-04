@@ -2,6 +2,10 @@ import Foundation
 import UserNotifications
 
 struct NotificationScheduler {
+    /// iOS allows max 64 pending local notifications per app.
+    /// 52 weekly reminders + 1 re-arm keeps us safely under the cap.
+    private static let maxScheduled = 52
+
     static func requestPermission() async -> Bool {
         do {
             return try await UNUserNotificationCenter.current()
@@ -17,9 +21,12 @@ struct NotificationScheduler {
         let ids = pending.filter { $0.identifier.hasPrefix("shabbat-") }.map { $0.identifier }
         center.removePendingNotificationRequests(withIdentifiers: ids)
 
-        for time in times {
+        let toSchedule = times
+            .filter { $0.date.addingTimeInterval(TimeInterval(-minutesBefore * 60)) > Date() }
+            .prefix(maxScheduled)
+
+        for time in toSchedule {
             let notifyDate = time.date.addingTimeInterval(TimeInterval(-minutesBefore * 60))
-            guard notifyDate > Date() else { continue }
 
             let content = UNMutableNotificationContent()
             content.title = "Shabbat Shalom"
@@ -34,6 +41,26 @@ struct NotificationScheduler {
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
             let request = UNNotificationRequest(
                 identifier: "shabbat-\(time.date.timeIntervalSince1970)",
+                content: content,
+                trigger: trigger
+            )
+            try? await center.add(request)
+        }
+
+        // Re-arm safety net: if the user never opens the app again, the final
+        // scheduled reminder is followed by a prompt to reopen and refresh.
+        if let last = toSchedule.last {
+            let rearmDate = last.date.addingTimeInterval(5 * 24 * 60 * 60)
+            let content = UNMutableNotificationContent()
+            content.title = "Keep your reminders coming"
+            content.body = "Open Friday Night Lights to schedule your next year of candle-lighting reminders. 🕯️"
+            content.sound = .default
+
+            let components = Calendar.current.dateComponents(
+                [.year, .month, .day, .hour, .minute], from: rearmDate)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            let request = UNNotificationRequest(
+                identifier: "shabbat-rearm",
                 content: content,
                 trigger: trigger
             )

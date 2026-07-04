@@ -73,16 +73,16 @@ class AppState: ObservableObject {
 
         Task {
             do {
-                let result = try await HebcalService.fetchCandleAndHavdalah(zip: zipCode)
+                let result = try await HebcalService.fetchSchedule(zip: zipCode)
                 await MainActor.run {
-                    self.nextCandleLighting = result.candle
-                    self.havdalahTime = result.havdalah
-                    self.lastCandleDate = result.candle.date
-                    self.lastHavdalahDate = result.havdalah
+                    self.nextCandleLighting = result.upcoming.first
+                    self.havdalahTime = result.nextHavdalah
+                    self.lastCandleDate = result.mostRecentCandle ?? result.upcoming.first?.date
+                    self.lastHavdalahDate = result.nextHavdalah
                     self.isLoading = false
                 }
                 await NotificationScheduler.scheduleNotifications(
-                    for: [result.candle],
+                    for: result.upcoming,
                     minutesBefore: minutesBefore
                 )
             } catch {
