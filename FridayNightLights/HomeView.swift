@@ -4,6 +4,11 @@ struct HomeView: View {
     @EnvironmentObject var appState: AppState
     @State private var showSettings = false
     @State private var showDebug = false
+    @State private var clockTick = Date()
+    @Environment(\.scenePhase) private var scenePhase
+
+    // Re-evaluate time-based state every minute while foregrounded.
+    private let minuteTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
     var body: some View {
         ZStack {
@@ -13,6 +18,10 @@ struct HomeView: View {
                 endPoint: .bottom
             )
             .ignoresSafeArea()
+
+            // Reading clockTick here ties this view's recomputation to the timer,
+            // so isShabbat is re-checked when havdalah (or candle lighting) passes.
+            let _ = clockTick
 
             if appState.isShabbat {
                 ShabbatView()
@@ -67,6 +76,15 @@ struct HomeView: View {
         }
         .onAppear {
             appState.refreshAndSchedule()
+        }
+        .onReceive(minuteTimer) { _ in
+            clockTick = Date()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                clockTick = Date()
+                appState.refreshAndSchedule()
+            }
         }
         .sheet(isPresented: $showSettings) {
             SettingsView().environmentObject(appState)

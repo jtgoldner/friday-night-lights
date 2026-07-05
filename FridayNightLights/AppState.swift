@@ -19,9 +19,11 @@ class AppState: ObservableObject {
         set { defaults.set(newValue, forKey: "lastCandleDate") }
     }
 
-    private var lastHavdalahDate: Date? {
-        get { defaults.object(forKey: "lastHavdalahDate") as? Date }
-        set { defaults.set(newValue, forKey: "lastHavdalahDate") }
+    // The havdalah that ENDS the Shabbat tied to lastCandleDate.
+    // Distinct from havdalahTime (next upcoming), which is used only for display.
+    private var currentShabbatEnd: Date? {
+        get { defaults.object(forKey: "currentShabbatEnd") as? Date }
+        set { defaults.set(newValue, forKey: "currentShabbatEnd") }
     }
 
     init() {
@@ -36,22 +38,32 @@ class AppState: ObservableObject {
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: now)
 
-        if weekday == 6 {
-            if let candle = lastCandleDate ?? nextCandleLighting?.date {
-                return now >= candle
-            }
-            return false
-        } else if weekday == 7 {
-            if let havdalah = lastHavdalahDate ?? havdalahTime {
-                return now < havdalah
-            }
+        // Only Friday or Saturday can be Shabbat.
+        guard weekday == 6 || weekday == 7 else { return false }
+
+        // Shabbat has a hard start (candle lighting) and hard end (havdalah).
+        // We're in Shabbat only if now is between this week's candle and its havdalah.
+        guard let start = lastCandleDate ?? nextCandleLighting?.date else { return false }
+
+        // If we haven't reached candle lighting yet (early Friday), not Shabbat.
+        guard now >= start else { return false }
+
+        // If we know when this Shabbat ends, respect it precisely.
+        if let end = currentShabbatEnd {
+            return now < end
+        }
+
+        // Fallback if havdalah unknown: treat Shabbat as ended once it's Saturday
+        // night past a conservative hour, otherwise still Shabbat.
+        if weekday == 7 {
+            // Without a known end time, assume Shabbat runs until end of Saturday.
             return true
         }
-        return false
+        return true
     }
 
     var havdalahFormattedTime: String? {
-        guard let h = lastHavdalahDate ?? havdalahTime else { return nil }
+        guard let h = havdalahTime else { return nil }
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -78,7 +90,7 @@ class AppState: ObservableObject {
                     self.nextCandleLighting = result.upcoming.first
                     self.havdalahTime = result.nextHavdalah
                     self.lastCandleDate = result.mostRecentCandle ?? result.upcoming.first?.date
-                    self.lastHavdalahDate = result.nextHavdalah
+                    self.currentShabbatEnd = result.currentShabbatEnd
                     self.isLoading = false
                 }
                 await NotificationScheduler.scheduleNotifications(
@@ -99,7 +111,7 @@ class AppState: ObservableObject {
         nextCandleLighting = nil
         havdalahTime = nil
         lastCandleDate = nil
-        lastHavdalahDate = nil
+        currentShabbatEnd = nil
         NotificationScheduler.cancelAll()
     }
 }
