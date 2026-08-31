@@ -7,7 +7,6 @@ struct HomeView: View {
     @State private var clockTick = Date()
     @Environment(\.scenePhase) private var scenePhase
 
-    // Re-evaluate time-based state every minute while foregrounded.
     private let minuteTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
     var body: some View {
@@ -19,8 +18,6 @@ struct HomeView: View {
             )
             .ignoresSafeArea()
 
-            // Reading clockTick here ties this view's recomputation to the timer,
-            // so isShabbat is re-checked when havdalah (or candle lighting) passes.
             let _ = clockTick
 
             if appState.isShabbat {
@@ -46,6 +43,14 @@ struct HomeView: View {
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 20)
+
+                    if appState.showTimeZoneCard {
+                        TimeZoneChangeCard(onUpdateTapped: {
+                            showSettings = true
+                        })
+                        .environmentObject(appState)
+                        .padding(.top, 20)
+                    }
 
                     Spacer()
 
@@ -76,6 +81,7 @@ struct HomeView: View {
         }
         .onAppear {
             appState.refreshAndSchedule()
+            appState.checkForTimeZoneChange()
         }
         .onReceive(minuteTimer) { _ in
             clockTick = Date()
@@ -84,6 +90,7 @@ struct HomeView: View {
             if newPhase == .active {
                 clockTick = Date()
                 appState.refreshAndSchedule()
+                appState.checkForTimeZoneChange()
             }
         }
         .sheet(isPresented: $showSettings) {

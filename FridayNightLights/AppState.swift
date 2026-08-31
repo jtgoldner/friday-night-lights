@@ -14,16 +14,22 @@ class AppState: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
 
+    // Time-zone-change travel prompt
+    @Published var showTimeZoneCard: Bool = false
+
     private var lastCandleDate: Date? {
         get { defaults.object(forKey: "lastCandleDate") as? Date }
         set { defaults.set(newValue, forKey: "lastCandleDate") }
     }
 
-    // The havdalah that ENDS the Shabbat tied to lastCandleDate.
-    // Distinct from havdalahTime (next upcoming), which is used only for display.
     private var currentShabbatEnd: Date? {
         get { defaults.object(forKey: "currentShabbatEnd") as? Date }
         set { defaults.set(newValue, forKey: "currentShabbatEnd") }
+    }
+
+    private var lastKnownTimeZoneID: String? {
+        get { defaults.string(forKey: "lastKnownTimeZoneID") }
+        set { defaults.set(newValue, forKey: "lastKnownTimeZoneID") }
     }
 
     init() {
@@ -38,26 +44,12 @@ class AppState: ObservableObject {
         let calendar = Calendar.current
         let weekday = calendar.component(.weekday, from: now)
 
-        // Only Friday or Saturday can be Shabbat.
         guard weekday == 6 || weekday == 7 else { return false }
-
-        // Shabbat has a hard start (candle lighting) and hard end (havdalah).
-        // We're in Shabbat only if now is between this week's candle and its havdalah.
         guard let start = lastCandleDate ?? nextCandleLighting?.date else { return false }
-
-        // If we haven't reached candle lighting yet (early Friday), not Shabbat.
         guard now >= start else { return false }
 
-        // If we know when this Shabbat ends, respect it precisely.
         if let end = currentShabbatEnd {
             return now < end
-        }
-
-        // Fallback if havdalah unknown: treat Shabbat as ended once it's Saturday
-        // night past a conservative hour, otherwise still Shabbat.
-        if weekday == 7 {
-            // Without a known end time, assume Shabbat runs until end of Saturday.
-            return true
         }
         return true
     }
@@ -104,6 +96,33 @@ class AppState: ObservableObject {
                 }
             }
         }
+    }
+
+    /// Compares the device's current time zone against the last known one.
+    /// Shows a soft, dismissible prompt on change. Call on app foreground.
+    func checkForTimeZoneChange() {
+        guard !zipCode.isEmpty else { return }  // no point prompting before onboarding is done
+
+        let current = TimeZone.current.identifier
+
+        guard let last = lastKnownTimeZoneID else {
+            // First launch ever recording a time zone — just record it, don't prompt.
+            lastKnownTimeZoneID = current
+            return
+        }
+
+        if current != last {
+            showTimeZoneCard = true
+        }
+        // Note: lastKnownTimeZoneID is intentionally NOT updated here.
+        // It only updates when the user acts on the card (dismiss, keep, or update),
+        // so the card doesn't silently stop reappearing on every subsequent launch
+        // in the new time zone before the user has responded.
+    }
+
+    func acknowledgeTimeZoneChange() {
+        lastKnownTimeZoneID = TimeZone.current.identifier
+        showTimeZoneCard = false
     }
 
     func resetZipCode() {
