@@ -18,6 +18,7 @@
 		B001000900000001 /* ShabbatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000900000002 /* ShabbatView.swift */; };
 		B001000A00000001 /* shabbat_shalom_tone.aiff in Resources */ = {isa = PBXBuildFile; fileRef = A001000A00000001 /* shabbat_shalom_tone.aiff */; };
 		B001000B00000001 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000B00000001 /* DebugView.swift */; };
+		B001000C00000001 /* TimeZoneChangeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A001000C00000001 /* TimeZoneChangeCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		A001000900000002 /* ShabbatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShabbatView.swift; path = ShabbatView.swift; sourceTree = "<group>"; };
 		A001000A00000001 /* shabbat_shalom_tone.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = shabbat_shalom_tone.aiff; path = shabbat_shalom_tone.aiff; sourceTree = "<group>"; };
 		A001000B00000001 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugView.swift; path = DebugView.swift; sourceTree = "<group>"; };
+		A001000C00000001 /* TimeZoneChangeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeZoneChangeCard.swift; path = TimeZoneChangeCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				A001000700000001 /* SettingsView.swift */,
 				A001000900000002 /* ShabbatView.swift */,
 				A001000B00000001 /* DebugView.swift */,
+				A001000C00000001 /* TimeZoneChangeCard.swift */,
 				A001000800000001 /* Assets.xcassets */,
 				A001000900000001 /* Info.plist */,
 				A001000A00000001 /* shabbat_shalom_tone.aiff */,
@@ -161,6 +164,7 @@
 				B001000700000001 /* SettingsView.swift in Sources */,
 				B001000900000001 /* ShabbatView.swift in Sources */,
 				B001000B00000001 /* DebugView.swift in Sources */,
+				B001000C00000001 /* TimeZoneChangeCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +293,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -299,7 +303,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonathangoldner.fridaynightlights;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -314,7 +318,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -324,7 +328,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonathangoldner.fridaynightlights;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
