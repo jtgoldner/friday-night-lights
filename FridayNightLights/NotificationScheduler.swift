@@ -15,7 +15,7 @@ struct NotificationScheduler {
         }
     }
 
-    static func scheduleNotifications(for times: [CandleLightingTime], minutesBefore: Int) async {
+    static func scheduleNotifications(for times: [CandleLightingTime], minutesBefore: Int, soundEnabled: Bool = true) async {
         let center = UNUserNotificationCenter.current()
         let pending = await center.pendingNotificationRequests()
         let ids = pending.filter { $0.identifier.hasPrefix("shabbat-") }.map { $0.identifier }
@@ -33,7 +33,11 @@ struct NotificationScheduler {
             content.body = minutesBefore == 0
                 ? "Candle lighting is now — \(time.formattedTime). Shabbat Shalom!"
                 : "Candle lighting in \(minutesBefore) min — \(time.formattedTime). Shabbat Shalom!"
-            content.sound = UNNotificationSound(named: UNNotificationSoundName("shabbat_shalom_tone.aiff"))
+            // Sound off = banner only. iOS ties haptics to the notification sound,
+            // so no sound also means no vibration.
+            content.sound = soundEnabled
+                ? UNNotificationSound(named: UNNotificationSoundName("shabbat_shalom_tone.aiff"))
+                : nil
             content.interruptionLevel = .timeSensitive
 
             let components = Calendar.current.dateComponents(
@@ -54,7 +58,7 @@ struct NotificationScheduler {
             let content = UNMutableNotificationContent()
             content.title = "Keep your reminders coming"
             content.body = "Open Friday Night Lights to schedule your next year of candle-lighting reminders. 🕯️"
-            content.sound = .default
+            content.sound = soundEnabled ? .default : nil
 
             let components = Calendar.current.dateComponents(
                 [.year, .month, .day, .hour, .minute], from: rearmDate)

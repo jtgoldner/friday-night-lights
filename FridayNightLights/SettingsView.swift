@@ -6,6 +6,7 @@ struct SettingsView: View {
     @State private var zipInput: String = ""
     @State private var minutesInput: String = ""
     @State private var showMinutesError = false
+    @State private var soundInput: Bool = true
     @FocusState private var focused: Bool
 
     private var formValid: Bool {
@@ -85,6 +86,27 @@ struct SettingsView: View {
                     }
                     .padding(.horizontal)
 
+                    VStack(alignment: .leading, spacing: 6) {
+                        Toggle(isOn: $soundInput) {
+                            Text("Sound & vibration")
+                                .foregroundColor(.white)
+                        }
+                        .tint(Color(red: 0.8, green: 0.6, blue: 0.1))
+                        .padding()
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                        )
+
+                        Text("Plays the Shabbat Shalom tone, and your phone vibrates with it. Turn off for a silent banner. Silent mode still mutes the tone.")
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.5))
+                            .padding(.horizontal, 4)
+                    }
+                    .padding(.horizontal)
+
                     Button(action: save) {
                         Text("Save")
                             .frame(maxWidth: .infinity)
@@ -114,6 +136,7 @@ struct SettingsView: View {
         .onAppear {
             zipInput = appState.zipCode
             minutesInput = "\(appState.minutesBefore)"
+            soundInput = appState.soundEnabled
             focused = true
         }
     }
@@ -125,6 +148,7 @@ struct SettingsView: View {
             return
         }
         appState.minutesBefore = mins
+        appState.soundEnabled = soundInput
         appState.zipCode = zipInput
         appState.refreshAndSchedule()
         dismiss()

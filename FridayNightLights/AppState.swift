@@ -9,6 +9,9 @@ class AppState: ObservableObject {
     @Published var minutesBefore: Int {
         didSet { defaults.set(minutesBefore, forKey: "minutesBefore") }
     }
+    @Published var soundEnabled: Bool {
+        didSet { defaults.set(soundEnabled, forKey: "soundEnabled") }
+    }
     @Published var nextCandleLighting: CandleLightingTime? = nil
     @Published var havdalahTime: Date? = nil
     @Published var isLoading: Bool = false
@@ -37,6 +40,8 @@ class AppState: ObservableObject {
         let saved = defaults.integer(forKey: "minutesBefore")
         self.minutesBefore = saved > 0 ? saved : 18
         self.havdalahTime = defaults.object(forKey: "lastHavdalahDate") as? Date
+        // Default ON for new and existing users (key absent = true)
+        self.soundEnabled = defaults.object(forKey: "soundEnabled") as? Bool ?? true
     }
 
     var isShabbat: Bool {
@@ -87,7 +92,8 @@ class AppState: ObservableObject {
                 }
                 await NotificationScheduler.scheduleNotifications(
                     for: result.upcoming,
-                    minutesBefore: minutesBefore
+                    minutesBefore: minutesBefore,
+                    soundEnabled: soundEnabled
                 )
             } catch {
                 await MainActor.run {
