@@ -20,6 +20,7 @@ struct SettingsView: View {
             ZStack {
                 Color("BackgroundBottom").ignoresSafeArea()
 
+                ScrollView {
                 VStack(spacing: 20) {
                     Text("Update your location or notification timing.")
                         .font(.subheadline)
@@ -103,6 +104,8 @@ struct SettingsView: View {
                         Text("Plays the Shabbat Shalom tone, and your phone vibrates with it. Turn off for a silent banner. Silent mode still mutes the tone.")
                             .font(.caption)
                             .foregroundColor(.white.opacity(0.5))
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
                             .padding(.horizontal, 4)
                     }
                     .padding(.horizontal)
@@ -119,9 +122,11 @@ struct SettingsView: View {
                     .disabled(!formValid)
                     .padding(.horizontal)
 
-                    Spacer()
                 }
                 .padding(.top, 24)
+                .padding(.bottom, 24)
+                }
+                .scrollDismissesKeyboard(.interactively)
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
